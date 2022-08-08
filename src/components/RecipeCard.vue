@@ -7,7 +7,7 @@
       <img :src="recipe.image" />
     </div>
     <div class="title">
-      <p>{{ recipe.name }}</p>
+      <p>{{ recipe.title }}</p>
     </div>
     <div class="body">
       <div class="rating">
