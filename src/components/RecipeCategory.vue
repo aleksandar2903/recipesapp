@@ -21,5 +21,6 @@ export default {
   width: 100%;
   box-shadow: var(--box-shadow);
   background: var(--linear-background);
+  cursor: pointer;
 }
 </style>

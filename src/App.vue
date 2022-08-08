@@ -4,6 +4,9 @@
 
 <style lang="scss">
 :root {
+  --size-1: 1rem;
+  --size-2: 2rem;
+  --size-3: 3rem;
   --primary-color: #42b983;
   --secondary-color: #f5f5f5;
   --box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;

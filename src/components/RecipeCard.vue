@@ -1,7 +1,10 @@
 <template>
   <div class="recipe-card">
     <div class="img">
-      <img :src="recipe.image_url" />
+      <!-- <img
+        src="https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/2022-06/BurgerKingImpossibleWhopper.jpg?itok=c069NH8q"
+      /> -->
+      <img :src="recipe.image" />
     </div>
     <div class="title">
       <p>{{ recipe.name }}</p>
@@ -66,9 +69,9 @@ export default {
 .recipe-card {
   background-color: white;
   position: relative;
-  width: 250px;
   box-shadow: var(--box-shadow);
   border-radius: 15px;
+  cursor: pointer;
   .img {
     padding: 15px 0;
     img {
@@ -96,7 +99,7 @@ export default {
   .body {
     display: flex;
     align-items: center;
-    margin: 20px 10px;
+    margin: 30px 10px;
     .rating {
       padding: 10px;
       ul {
@@ -107,8 +110,8 @@ export default {
           margin: 0 5px;
           display: inline-block;
           svg {
-            width: 20px;
-            height: 20px;
+            width: 12px;
+            height: 12px;
           }
         }
       }
@@ -147,6 +150,59 @@ export default {
     cursor: pointer;
     box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
       rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .recipe-card {
+    padding: var(--size-1);
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0 var(--size-1);
+    .img {
+      grid-area: 1/1/3/2;
+      margin: auto;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .title {
+      grid-area: 1 / 2 / 2 / 3;
+      margin: auto;
+      box-shadow: initial;
+      padding: 0;
+      width: 70px;
+      p {
+        width: 70px;
+      }
+    }
+    .button {
+      grid-area: 2 / 2 / 3 / 3;
+      position: initial;
+      right: initial;
+      left: initial;
+      bottom: initial;
+      margin: auto;
+      width: auto;
+      font-size: small;
+    }
+    .body {
+      grid-area: 1 / 3 / 3 / 4;
+      display: grid;
+      grid-template-columns: auto auto auto auto;
+      margin: 0;
+      padding: 0;
+      .price {
+        grid-area: 2 / 2 / 3 / 3;
+      }
+      .rating {
+        grid-area: 1 / 1 / 2 / 3;
+      }
+      .divider {
+        grid-area: 2 / 1 / 3 / 2;
+      }
+    }
   }
 }
 </style>
