@@ -87,7 +87,7 @@ export default {
     loadCategories() {
       this.loading = true;
       RecipesService.getRecipes("/categories").then((response) => {
-        this.categories = response.data.categories.slice(0, 20);
+        this.categories = response.data.categories.slice(500, 520);
       });
     },
     scrollTrigger() {
