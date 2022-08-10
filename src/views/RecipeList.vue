@@ -38,59 +38,15 @@ export default {
     return {
       loading: false,
       totalRecords: 0,
-      offset: 15,
+      offset: 0,
       limit: 6,
       recipes: [],
-      categories: [
-        {
-          id: 1,
-          title: "Bread",
-          alias: "bread",
-        },
-        {
-          id: 2,
-          title: "Sauce",
-          alias: "sauce",
-        },
-        {
-          id: 3,
-          title: "Snack",
-          alias: "snack",
-        },
-        {
-          id: 4,
-          title: "Beverage",
-          alias: "beverage",
-        },
-        {
-          id: 5,
-          title: "Soup",
-          alias: "soup",
-        },
-        {
-          id: 6,
-          title: "Breakfast",
-          alias: "breakfast",
-        },
-        {
-          id: 7,
-          title: "Side dish",
-          alias: "side dish",
-        },
-        {
-          id: 8,
-          title: "Main course",
-          alias: "main course",
-        },
-      ],
+      categories: [],
     };
   },
   created() {
-    this.loadRecords();
-    this.recipes = this.recipess;
-    // RecipesService.getRecipes("/categories").then((response) => {
-    //   this.categories = response.data.categories.slice(0, 20);
-    // });
+    this.loadCategories();
+    this.loadRecords().then(() => this.scrollTrigger());
   },
   computed: {
     loadingCards() {
@@ -98,47 +54,41 @@ export default {
     },
   },
   methods: {
-    loadRecords() {
+    async loadRecords() {
       this.loading = true;
-      RecipesService.getRecipes(
-        "/recipes/complexSearch?query=a&limitLicense=true"
+      return await RecipesService.getRecipes(
+        "/businesses/search?latitude=37.786882&longitude=-122.399972&offset=" +
+          this.offset
       )
         .then((response) => {
-          this.totalRecords = response.data.totalResults;
-          this.recipes = response.data.results;
-        })
-        .finally(() => {
-          this.scrollTrigger();
-          this.loading = false;
-        });
-    },
-    loadMoreRecords() {
-      this.loading = true;
-      RecipesService.getRecipes(
-        "/recipes/complexSearch?query=a&limitLicense=true&offset=" + this.offset
-      )
-        .then((response) => {
-          this.recipes.push(...response.data.results);
+          this.recipes.push(...response.data.businesses);
           this.offset += 15;
         })
         .finally(() => {
           this.loading = false;
-          this.scrollTrigger();
         });
     },
-    onCategoryClick(category) {
+    async onCategoryClick(category) {
       this.loading = true;
-      RecipesService.getRecipes(
-        "/recipes/complexSearch?query=&limitLicense=true&type=" + category.alias
+      return await RecipesService.getRecipes(
+        "/businesses/search?latitude=37.786882&longitude=-122.399972&categories=" +
+          category.alias
       )
         .then((response) => {
-          this.recipes = response.data.results;
-          this.totalRecords = response.data.totalResults;
-          this.offset = 15;
+          this.recipes = response.data.businesses;
         })
         .finally(() => {
           this.loading = false;
         });
+    },
+    loadMoreRecords() {
+      this.loadRecords().then(() => this.scrollTrigger());
+    },
+    loadCategories() {
+      this.loading = true;
+      RecipesService.getRecipes("/categories").then((response) => {
+        this.categories = response.data.categories.slice(0, 20);
+      });
     },
     scrollTrigger() {
       const cards = document.querySelectorAll(".recipe-card");
@@ -153,7 +103,6 @@ export default {
                 this.loadMoreRecords();
               }
               observer.unobserve(entry.target);
-              console.log(this.limit, entry.target.getAttribute("index"));
             }
           },
           {

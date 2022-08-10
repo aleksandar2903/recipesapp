@@ -5,16 +5,16 @@ const client = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
+    Authorization: "Bearer " + process.env.VUE_APP_API_KEY,
   },
   params: {
-    apiKey: process.env.VUE_APP_API_KEY,
-    number: 15,
+    limit: 15,
   },
 });
 
 export default {
   // RecipesService
-  getRecipes(query) {
-    return client.get(query);
+  async getRecipes(query) {
+    return await client.get(query);
   },
 };

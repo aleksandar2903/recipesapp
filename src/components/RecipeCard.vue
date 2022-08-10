@@ -4,10 +4,10 @@
       <!-- <img
         src="https://www.qsrmagazine.com/sites/default/files/styles/story_page/public/2022-06/BurgerKingImpossibleWhopper.jpg?itok=c069NH8q"
       /> -->
-      <img :src="recipe.image" />
+      <img :src="recipe.image_url" />
     </div>
     <div class="title">
-      <p>{{ recipe.title }}</p>
+      <p>{{ recipe.name }}</p>
     </div>
     <div class="body">
       <div class="rating">
